@@ -19,7 +19,7 @@
     "DemoDotNetCore.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/blogs",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

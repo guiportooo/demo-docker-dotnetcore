@@ -1,11 +1,13 @@
 ﻿namespace DemoDotNetCore.WebApi
 {
-    using Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Models;
+    using Repositories;
+
 
     public class Startup
     {
@@ -25,6 +27,9 @@
                 .AddDbContext<BloggingContext>(
                     options => options
                     .UseSqlServer(Configuration.GetConnectionString("DemoDotNetCoreDB")));
+
+            services.AddScoped<Blogs>();
+            services.AddScoped<Posts>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
