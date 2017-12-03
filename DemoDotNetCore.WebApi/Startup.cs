@@ -1,4 +1,7 @@
-﻿namespace DemoDotNetCore.WebApi
+﻿using Microsoft.AspNetCore.Rewrite;
+using Swashbuckle.AspNetCore.Swagger;
+
+namespace DemoDotNetCore.WebApi
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -28,6 +31,11 @@
                     options => options
                     .UseSqlServer(Configuration.GetConnectionString("DemoDotNetCoreDB")));
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "DemoDotNetCore Web API", Version = "v1" });
+            });
+
             services.AddScoped<Blogs>();
             services.AddScoped<Posts>();
         }
@@ -40,7 +48,18 @@
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DemoDotNetCore Web API");
+            });
+
             app.UseMvc();
+
+            var redirectRootToSwagger = new RewriteOptions()
+                .AddRedirect("^$", "swagger");
+            app.UseRewriter(redirectRootToSwagger);
         }
     }
 }
