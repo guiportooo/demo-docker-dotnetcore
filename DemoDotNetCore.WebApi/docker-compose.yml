@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+  api:
+    build:
+      context: .
+    image: aspnetcore/demodocker:multi
+    ports:
+      - "8080:80"
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
