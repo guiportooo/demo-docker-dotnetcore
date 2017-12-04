@@ -20,16 +20,22 @@ namespace DemoDotNetCore.WebApi.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DemoDotNetCore.WebApi.Models.Blog", b =>
+            modelBuilder.Entity("DemoDotNetCore.WebApi.Models.Comment", b =>
                 {
-                    b.Property<int>("BlogId")
+                    b.Property<int>("CommentId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Url");
+                    b.Property<string>("Author");
 
-                    b.HasKey("BlogId");
+                    b.Property<string>("Content");
 
-                    b.ToTable("Blogs");
+                    b.Property<int>("PostId");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("DemoDotNetCore.WebApi.Models.Post", b =>
@@ -37,24 +43,20 @@ namespace DemoDotNetCore.WebApi.Migrations
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("BlogId");
-
                     b.Property<string>("Content");
 
                     b.Property<string>("Title");
 
                     b.HasKey("PostId");
 
-                    b.HasIndex("BlogId");
-
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("DemoDotNetCore.WebApi.Models.Post", b =>
+            modelBuilder.Entity("DemoDotNetCore.WebApi.Models.Comment", b =>
                 {
-                    b.HasOne("DemoDotNetCore.WebApi.Models.Blog", "Blog")
-                        .WithMany("Posts")
-                        .HasForeignKey("BlogId")
+                    b.HasOne("DemoDotNetCore.WebApi.Models.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
