@@ -1,5 +1,4 @@
-#Build Stage
-FROM microsoft/aspnetcore-build:2 AS build-env
+FROM microsoft/aspnetcore-build:2
 
 WORKDIR /api
 
@@ -7,13 +6,8 @@ COPY DemoDotNetCore.WebApi.csproj .
 RUN dotnet restore
 
 COPY . .
-RUN dotnet publish -c Release -o /publish
 
-# Runtime Image Stage
-FROM microsoft/aspnetcore:2 AS runtime-env
+RUN dotnet build
 
-WORKDIR /publish
-
-COPY --from=build-env /publish .
-
-ENTRYPOINT [ "dotnet", "DemoDotNetCore.WebApi.dll" ]
+RUN chmod +x ./entrypoint.sh 
+CMD /bin/bash ./entrypoint.sh

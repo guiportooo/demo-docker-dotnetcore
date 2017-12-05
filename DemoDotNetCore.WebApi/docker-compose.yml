@@ -4,10 +4,23 @@ services:
   api:
     build:
       context: .
-    image: aspnetcore/demodocker:multi
+    image: aspnetcore/demodocker:test
     ports:
       - "8080:80"
+    depends_on:
+      - db
+  db:
+    image: microsoft/mssql-server-linux
+    environment:
+      SA_PASSWORD: "Password_123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssqldata:/var/opt/mssql
   mail:
     image: mailhog/mailhog
     ports:
       - "8025:8025"
+volumes:
+  mssqldata:
